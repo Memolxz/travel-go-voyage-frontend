@@ -1,5 +1,6 @@
 
 import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart, Menu, X, Plane } from "lucide-react";
 import { CartSidebar } from "@/components/cart/CartSidebar";
@@ -11,6 +12,9 @@ interface NavigationProps {
 export const Navigation = ({ onOpenAuth }: NavigationProps) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const location = useLocation();
+
+  const isActive = (path: string) => location.pathname === path;
 
   return (
     <>
@@ -18,27 +22,55 @@ export const Navigation = ({ onOpenAuth }: NavigationProps) => {
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
-            <div className="flex items-center space-x-2">
+            <Link to="/" className="flex items-center space-x-2">
               <div className="bg-blue-600 p-2 rounded-lg">
                 <Plane className="h-6 w-6 text-white" />
               </div>
               <span className="text-2xl font-bold text-blue-900">Travel Go</span>
-            </div>
+            </Link>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
-              <a href="#" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
-                Flights
-              </a>
-              <a href="#" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
-                Hotels
-              </a>
-              <a href="#" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
+              <Link 
+                to="/products" 
+                className={`font-medium transition-colors ${
+                  isActive('/products') 
+                    ? 'text-blue-600 border-b-2 border-blue-600 pb-1' 
+                    : 'text-gray-700 hover:text-blue-600'
+                }`}
+              >
+                Products
+              </Link>
+              <Link 
+                to="/packages" 
+                className={`font-medium transition-colors ${
+                  isActive('/packages') 
+                    ? 'text-blue-600 border-b-2 border-blue-600 pb-1' 
+                    : 'text-gray-700 hover:text-blue-600'
+                }`}
+              >
                 Packages
-              </a>
-              <a href="#" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
-                Activities
-              </a>
+              </Link>
+              <Link 
+                to="/orders" 
+                className={`font-medium transition-colors ${
+                  isActive('/orders') 
+                    ? 'text-blue-600 border-b-2 border-blue-600 pb-1' 
+                    : 'text-gray-700 hover:text-blue-600'
+                }`}
+              >
+                My Orders
+              </Link>
+              <Link 
+                to="/profile" 
+                className={`font-medium transition-colors ${
+                  isActive('/profile') 
+                    ? 'text-blue-600 border-b-2 border-blue-600 pb-1' 
+                    : 'text-gray-700 hover:text-blue-600'
+                }`}
+              >
+                Profile
+              </Link>
             </div>
 
             {/* Desktop Actions */}
@@ -76,10 +108,18 @@ export const Navigation = ({ onOpenAuth }: NavigationProps) => {
           {isMobileMenuOpen && (
             <div className="md:hidden border-t bg-white py-4">
               <div className="flex flex-col space-y-4">
-                <a href="#" className="text-gray-700 font-medium px-4">Flights</a>
-                <a href="#" className="text-gray-700 font-medium px-4">Hotels</a>
-                <a href="#" className="text-gray-700 font-medium px-4">Packages</a>
-                <a href="#" className="text-gray-700 font-medium px-4">Activities</a>
+                <Link to="/products" className="text-gray-700 font-medium px-4 py-2 hover:bg-gray-50 rounded">
+                  Products
+                </Link>
+                <Link to="/packages" className="text-gray-700 font-medium px-4 py-2 hover:bg-gray-50 rounded">
+                  Packages
+                </Link>
+                <Link to="/orders" className="text-gray-700 font-medium px-4 py-2 hover:bg-gray-50 rounded">
+                  My Orders
+                </Link>
+                <Link to="/profile" className="text-gray-700 font-medium px-4 py-2 hover:bg-gray-50 rounded">
+                  Profile
+                </Link>
                 <div className="border-t pt-4 px-4 space-y-2">
                   <Button 
                     variant="ghost" 
